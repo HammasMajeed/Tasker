@@ -1,0 +1,35 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar style="--background: {{toolBarBgColor}}">
+    <ion-title style="--background: {{titleBarBgColor}}; --color:{{titleTextColor}}">
+      <img src="{{imgSrc}}" id="imgLogo" style="margin-top:15px;">
+      <br>
+      <h4 style="margin-top:0px;padding-top: 10px;">{{buildingInfo}}</h4>
+      <h5>{{username}}</h5>
+    </ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard-patrol" style="color:#000;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+     Quick Patrol
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item lines="none">
+    <h4>Choose Quick Patrol</h4>
+  </ion-item>
+  <ion-list>
+    <ion-item *ngFor="let item of lstQuickLocations" (click)="fnOpenQuickPatrolling(item.QuickPatrolID,item.Title)">
+      <ion-label>
+        <h2>{{item.Title}}</h2>
+        <h3>{{item.Locations}}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

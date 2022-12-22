@@ -1,0 +1,85 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab1" style="color:#000;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Attendance
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div
+    style="background-color: #fff;border-top-left-radius: 20px;border-top-right-radius: 20px;padding-top:0px;padding-right: 0px;padding-left: 0px;">
+    <ion-button shape="round" (click)="fnOpenAttendanceForm()" [hidden]="!DoCheckInOut"
+      style="position: fixed;right: 20px;bottom: 20px;z-index: 100000;" color="primary">
+      Mark Attendance &nbsp;<ion-icon name="enter"></ion-icon>
+    </ion-button>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" id="open-modal-from-attendance-date">
+          <ion-item>
+            <ion-label position="stacked">From Date</ion-label>
+            <ion-input value="" [(ngModel)]="lblFromDate"> </ion-input>
+          </ion-item>
+         
+        </ion-col>
+        <ion-col size="6" id="open-modal-to-attendance-date">
+          <ion-item>
+            <ion-label position="stacked">To Date</ion-label>
+            <ion-input value="" [(ngModel)]="lblToDate"> </ion-input>
+          </ion-item>
+         
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-modal trigger="open-modal-from-attendance-date">
+      <ng-template>
+        <ion-content>
+          <ion-datetime showDefaultButtons="true" (ionChange)="GetFromDate()" [(ngModel)]="fromDateValue" presentation="date" displayFormat="DD-MMM-YYYY">
+            <div slot="title">Search from</div>
+          </ion-datetime>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    <ion-modal trigger="open-modal-to-attendance-date">
+      <ng-template>
+        <ion-content>
+          <ion-datetime showDefaultButtons="true" (ionChange)="GetToDate()" [(ngModel)]="toDateValue" presentation="date" displayFormat="DD-MMM-YYYY">
+            <div slot="title">Search from</div>
+          </ion-datetime>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    <div style="margin-right:20px;margin-left:20px">
+      <ion-button (click)='fnGetCheckInOuts()' color="light" expand="block"><ion-icon name="search-outline"></ion-icon>&nbsp; Search</ion-button>
+    </div>
+    <div style="text-align: center;" [hidden]="DoCheckInOut">
+        <h3>No Shifts are assigned today!</h3>
+    </div>
+<div style="margin-left: 10px;margin-right:10px;" [hidden]="!DoCheckInOut">
+  <a target='_blank' href="https://maps.google.com/?q={{workerAttendanceLocation}}">See your valid attendance location.</a>
+  <div><label>Duty timing: {{StrShiftStartsAt}} to {{StrShiftEndsAt}}</label></div>
+  <div><label>Please make sure you have turned on your location.</label> <label> Your device ID is </label>  <ion-input style="font-weight:bold;" [(ngModel)]="lblDeviceID"> </ion-input></div>
+  <!-- <label (click)="fnReloadPage();">Please make sure you have turned on your location. <span style="color:blue;"><u>Click here</u></span> to reload the page after turning ON the location.</label> -->
+</div>
+    <ion-list>
+      <ion-card *ngFor="let item of lstAttendance">
+        <ion-card-header>
+          <ion-card-title>
+            {{item.WorkerName}} <span style="float: right;font-size:13px;"><b>{{item.StrInsertedDateTime}}</b></span>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="divContentOfCards">
+          <h3>Check In Time: <span style="float: right;"><b>{{item.StrCheckInDateTime}}</b></span></h3>
+          <h3  *ngIf="item.LatitudeCheckIn">Check In Location: <span style="float: right;"> <a target='_blank' href="https://maps.google.com/?q={{item.LatitudeCheckIn}},{{item.LongitudeCheckIn}}">Open Map</a></span></h3>
+          <h3>Check Out Time: <span style="float: right;"><b>{{item.StrCheckOutDateTime}}</b> </span>  </h3> 
+          <h3 *ngIf="item.LatitudeCheckOut">Check Out Location: <span style="float: right;"><a target='_blank' href="https://maps.google.com/?q={{item.LatitudeCheckOut}},{{item.LongitudeCheckOut}}">Open Map</a></span></h3>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+  </div>
+  <div id="divRegister" style="margin-top:10px;text-align: center;">
+    <ion-button shape="round" (click)="fnOneTimeRegistration()" size="small">Register my device</ion-button>&nbsp;
+  </div>
+</ion-content>

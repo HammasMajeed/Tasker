@@ -1,0 +1,158 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab1" style="color:#000;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{TaskName}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div>
+    <h3 id="lblNoTasks" style="text-align: center;">
+      <ion-icon name="happy" style="vertical-align: middle;font-size: 33px;"></ion-icon> No Active Tasks!
+    </h3>
+  </div>
+  <ion-list>
+    <ion-card *ngFor="let item of lstTaskActivity" (click)="fnGetTaskActivityByID(item.TaskActivityID)">
+      <ion-card-header style="padding-left:10px;padding-bottom:0px;padding-right:10px;">
+        <ion-card-title style="border-bottom:1px solid #ddd; padding-bottom:5px;">
+          {{item.Title}}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content style="padding:10px;">
+        <h3>Starts at: {{item.StrStartDateTime}}</h3>
+        <p>{{item.Details}}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ion-modal [isOpen]="isActivityModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeActivityModal()" [strong]="true">Close</ion-button>
+          </ion-buttons>
+          <ion-title style="padding-right: 0;
+padding-left: 10px;"> Task Activity</ion-title>
+
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <div style="width:100%;position: fixed;bottom:10px;">
+
+          <ion-button (click)="fnActivtyInOut('CheckIn')" expand="block" color="warning" *ngIf="btnStatus == 'CheckIn'"
+            shape="round">
+            <ion-icon slot="start" name="arrow-down"></ion-icon>Check In
+          </ion-button>
+          <ion-button color="danger" (click)="fnActivtyInOut('CheckOut')" expand="block" *ngIf="btnStatus == 'CheckOut'"
+            shape="round">
+            <ion-icon slot="start" name="arrow-up"></ion-icon>Check Out
+          </ion-button>
+          <ion-button color="primary" expand="block" disabled *ngIf="btnStatus == 'Close'" shape="round">
+            <ion-icon slot="start" name="check"></ion-icon>Checked out
+          </ion-button>
+        </div>
+
+        <div style="padding:10px;    margin-bottom: 120px;">
+          <div class="labelsDiv">
+            <label>
+              Starts at
+            </label>
+            <label style="float:right;">
+              {{StartsOn}}
+            </label>
+          </div> 
+          <div class="labelsDiv">
+            <label>
+              Activity Location
+            </label>
+            <label style="float:right;">
+              <a href="https://maps.google.com/?q={{this.ActivityLocation}}">See Location</a>
+            </label>
+          </div>
+          <div class="labelsDiv">
+            <label>
+              Checked In at
+            </label>
+            <label style="float:right;">
+              {{CheckInDateTime}}
+            </label>
+          </div>
+          <div class="labelsDiv" style="    border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;">
+            <label>
+              Checked Out at
+            </label>
+            <label style="float:right;">
+              {{CheckOutDateTime}}
+            </label>
+          </div>
+
+          <label style="margin-top: 10px;display: block;font-weight: bold;">{{ActivityTitle}}</label>
+          <div style="    border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;">
+            <label style="font-size: 12px;">{{ActivityDetails}}</label>
+          </div>
+
+          <label style="display: block;
+        font-size: 13px;
+        margin-top: 10px;"><b>Attachements</b></label>
+          <!-- <div style="margin-top:10px;    margin-bottom: 15px;">
+          <input style="font-size: 10px;" type="file" name="doc" id="adImg" />
+          <button style=" float:right;   color: #fff;
+          padding: 5px;
+          padding-right: 10px;
+          padding-left: 10px;
+          border-radius: 7px;
+          background: blue;" (click)="fnSendFile()"  id="btnSubmitFile">
+            Upload
+          </button>
+        </div> -->
+
+          <!-- <ion-button size="small" >
+          <ion-icon name="cloud-upload"></ion-icon>&nbsp;
+          </ion-button> -->
+          <div (click)="fnOpenDocument(item.DocPath)" *ngFor="let item of lstAttachements" style="margin-top: 5px;
+                  width: 100%;
+                  border-bottom: 1px solid #ccc;
+                  border-bottom-width: 1px;
+                  border-bottom-style: solid;
+                  border-bottom-color: rgb(204, 204, 204);
+                  padding-bottom: 7px;">
+            <label style="font-size: 12px;"> {{item.Title}} <input type="hidden" value="{{item.DocPath}}"></label>
+            <!-- <span style="float:right;" (click)="fnRemoveDocument(item.docId)"><ion-icon  name="trash-bin"></ion-icon></span> -->
+            <!-- <span style="float:right;" ><ion-icon name="search"></ion-icon></span> -->
+          </div>
+          <div *ngIf="NoAttachments===true" style="margin-top: 5px;
+                  width: 100%;
+                  border-bottom: 1px solid #ccc;
+                  padding-bottom: 7px;">
+            <label style="font-size: 12px;">No Attachments</label>
+          </div>
+          <label style="display: block;
+                  font-size: 13px;
+                  margin-top: 10px;"><b>Manager Remarks</b></label>
+          <label style="display: block;font-size: 12px;border-bottom: 1px solid #ccc;
+          padding-bottom: 7px;">{{ManagerRemarks}}</label>
+          <label style="display: block;
+                  font-size: 13px;
+                  margin-top: 10px;"><b>Worker Remarks</b><span *ngIf="btnStatus != 'Closed'" style="float:right;"
+              (click)="fnOpenAddRemarks()">
+              <ion-icon name="create"></ion-icon>
+            </span></label>
+          <label style="display: block;font-size: 12px;border-bottom: 1px solid #ccc;
+          padding-bottom: 7px;">{{WorkerRemarks}}</label>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

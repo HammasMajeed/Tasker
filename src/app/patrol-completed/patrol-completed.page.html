@@ -1,0 +1,35 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar  style="--background: {{toolBarBgColor}}">
+    <ion-title  style="--background: {{titleBarBgColor}}; --color:{{titleTextColor}}">
+      <img src="{{imgSrc}}" id="imgLogo"  style="margin-top:15px;">
+      <br>
+      <h4 style="margin-top:0px;padding-top: 10px;">{{buildingInfo}}</h4>
+      <h5>{{username}}</h5>
+    </ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard-patrol" style="color:#000;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+     Completed
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content  style="--background:{{contentBgColor}}">
+  <div style="background-color: #fff;height: 100%;border-top-left-radius: 20px;border-top-right-radius: 20px;padding-top:30px;padding-right: 30px;padding-left: 30px;">
+    <div style="margin-top: 20px;">
+      <div style="text-align: center;">
+        <div>
+          <img src="../../assets/images/check.png">
+        </div>
+          <h4>Patrol is completed</h4>
+    </div>
+    </div>
+    <ion-button  style="margin-top: 50px;" expand="block" (click)="fnReturnToDashboard();" color="primary">Return to dashboard</ion-button>
+  </div>
+  
+</ion-content>

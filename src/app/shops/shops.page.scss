@@ -1,0 +1,27 @@
+ion-title{
+    padding-left: 0px;
+    text-align: center;
+    margin-left: -30px;
+}
+
+ion-title{
+  text-align: center;
+  color:#000;
+}
+ion-title h2{
+  margin-top:10px;
+  font-size: 30px;
+}
+
+/* DOES NOT WORK - not specific enough */
+.action-sheet-group {
+  background: #e5e5e5;
+}
+
+/* Works - pass "my-custom-class" in cssClass to increase specificity */
+.my-custom-class .action-sheet-group {
+  background: #e5e5e5;
+}
+.my-custom-class {
+  --background: #e5e5e5;
+}

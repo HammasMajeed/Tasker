@@ -1,0 +1,86 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+.divFooter {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1000000;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+.alert-radio-label.sc-ion-alert-md,
+.alert-radio-label.sc-ion-alert-ios {
+  white-space: normal;
+}
+
+.alert-radio-button alert-tappable {
+  height: 51px;
+}
+
+.item.sc-ion-label-md-h,
+.item .sc-ion-label-md-h {
+  white-space: normal;
+}
+
+body.scanner-active {
+  --background: transparent;
+  --ion-background-color: transparent;
+}
+
+
+ion-title h4 {
+  white-space: normal;
+  padding-top: 0px !important;
+  font-size: 17px;
+}
+
+ion-title h5 {
+  white-space: normal;
+  margin-top: 2px !important;
+  font-size: 16px;
+}
+
+.headingModal {
+  width: 90%;
+  margin-left: 16px;
+  margin-right: 16px;
+  position: fixed;
+  top: 0;
+  border-bottom: 1px solid #000;
+  padding-top: 16px;
+  background-color: #fff;
+  padding-bottom: 10px;
+  margin-top: 0;
+  z-index: 1000000000000;
+}
+
+// ion-title{
+//   text-align: center;
+// }

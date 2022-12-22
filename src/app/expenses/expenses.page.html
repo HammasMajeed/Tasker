@@ -1,0 +1,125 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab1" style="color:#000;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Expenses
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div
+    style="background-color: #fff;border-top-left-radius: 20px;border-top-right-radius: 20px;padding-top:0px;padding-right: 0px;padding-left: 0px;">
+    <ion-button shape="round" (click)="fnOpenExpenseForm()" 
+      style="position: fixed;right: 20px;bottom: 20px;z-index: 100000;" color="primary">
+      <ion-icon name="pencil"></ion-icon> Apply for expense 
+    </ion-button>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" id="open-modal-from-expense-date">
+          <ion-item>
+            <ion-label position="stacked">From Date</ion-label>
+            <ion-input value="" [(ngModel)]="lblFromDateExpense"> </ion-input>
+          </ion-item>
+         
+        </ion-col>
+        <ion-col size="6" id="open-modal-to-expense-date">
+          <ion-item>
+            <ion-label position="stacked">To Date</ion-label>
+            <ion-input value="" [(ngModel)]="lblToDateExpense"> </ion-input>
+          </ion-item>
+         
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-modal style="  --width: 290px;
+    --height: 600px;
+    --border-radius: 8px;" trigger="open-modal-from-expense-date">
+      <ng-template>
+        <ion-content>
+          <ion-datetime showDefaultButtons="true" (ionChange)="GetFromDateExpense()" [(ngModel)]="fromDateValueExpense" presentation="date" displayFormat="DD-MMM-YYYY">
+            <div slot="title">Search from</div>
+          </ion-datetime>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    <ion-modal style="  --width: 290px;
+    --height: 600px;
+    --border-radius: 8px;" trigger="open-modal-to-expense-date">
+      <ng-template>
+        <ion-content>
+          <ion-datetime showDefaultButtons="true" (ionChange)="GetToDateExpense()" [(ngModel)]="toDateValueExpense" presentation="date" displayFormat="DD-MMM-YYYY">
+            <div slot="title">Search to</div>
+          </ion-datetime>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    <div style="margin-right:20px;margin-left:20px">
+      <ion-button (click)='fnGetExpenses()' color="light" expand="block"><ion-icon name="search-outline"></ion-icon>&nbsp; Search</ion-button>
+    </div>
+   
+    <ion-list>
+      <ion-card *ngFor="let item of lstExpenses">
+        <ion-card-header>
+          <ion-card-title>
+            Rs. {{item.Amount}} <span style="float: right;font-size:13px;"><b>{{item.StrInsertedDateTime}}</b></span>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="divContentOfCards">
+          <h3 style="padding-bottom:10px;border-bottom:1px solid #ddd"><b>Head: </b> {{item.ExpenseHead}}</h3>
+          <h3 style="margin-top:10px;padding-bottom:10px;border-bottom:1px solid #ddd"><b>Reason: </b> <span> {{item.Details}}</span>  </h3> 
+          <h3 style="margin-top:10px;"><b>Status:</b> <span> {{item.IsApproved}}</span>  </h3> 
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+  </div>
+
+
+  <ion-modal [isOpen]="isApplyExpenseModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeApplyExpenseModal()" [strong]="true">Close</ion-button>
+          </ion-buttons>
+          <ion-title style="margin-left:0px;padding-right: 0;text-align: left;
+padding-left: 10px;"> Apply for expense</ion-title>
+
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <div style="width:100%;position: fixed;bottom:10px;">
+          <ion-button (click)="fnAddExpense()" expand="block" color="primary"
+            shape="round">
+           Apply
+          </ion-button>
+        </div>
+
+       <div style="margin-top:12px;padding:10px">
+        <ion-item>
+          <ion-label>Select Expense Type</ion-label>
+          <ion-select [(ngModel)]="ddlExpenseType"  placeholder="">
+            <ion-select-option *ngFor="let item of lstExpenseHeads" value="{{item.ExpenseHeadID}}">{{item.Title}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="fixed">Amount</ion-label>
+          <ion-input type="number" [(ngModel)]="txtAmount"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="fixed">Reason</ion-label>
+          <ion-textarea [(ngModel)]="txtReason" placeholder="Enter the reason of expense..."></ion-textarea>
+        </ion-item>
+      </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+
+</ion-content>

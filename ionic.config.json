@@ -1,0 +1,7 @@
+{
+  "name": "Sayingidotovu",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

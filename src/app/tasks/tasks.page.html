@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab1" style="color:#000;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+     Your Tasks
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+<ion-content>
+  <div>
+    <h3 id="lblNoTasks" style="text-align: center;"><ion-icon md="happy" ios="happy" style="vertical-align: middle;font-size: 33px;"></ion-icon> No Active Tasks!</h3>
+  </div>
+  <ion-list>
+    <ion-card  *ngFor="let item of lstTasks" (click)="fnOpenTasks(item.TaskID,item.Title)">
+      <ion-card-header style="padding-left:10px;padding-bottom:0px;padding-right:10px;">
+        <ion-card-title style="border-bottom:1px solid #ddd; padding-bottom:5px;">
+          {{item.Title}}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content style="padding:10px;">
+        <h3>{{item.Client}}</h3>
+        <p>{{item.TotalTasks}} Activity(ies)</p>
+        <!-- <p><a href="https://maps.google.com/?q={{item.GoogleMapUrl}}">See Site Location</a></p> -->
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

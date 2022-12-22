@@ -1,0 +1,88 @@
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab1" style="color:#000;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Patrol
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div style="margin: 20px;" >
+      <div class="mycard" (click)="fnOpenInstructionPage();">
+        <table>
+          <tr>
+            <td style="padding-left: 15px;padding-top: 15px;">
+              <img src="../../assets/images/instructions.jpg" style="height: 60px; width: 60px;" alt="Avatar">
+            </td>
+            <td>
+              <h4 style="margin-top:0px;margin-bottom:0px;">&nbsp;&nbsp;&nbsp;How to use</h4>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div style="margin-top:20px;" class="mycard" (click)="fnOpenPatrolPage();">
+        <table>
+          <tr>
+            <td style="padding-left: 15px;padding-top: 15px;">
+              <img src="../../assets/images/qr.png" style="height: 60px; width: 60px;" alt="Avatar">
+            </td>
+            <td>
+              <h4 style="margin-top:0px;margin-bottom:0px;">&nbsp;&nbsp;&nbsp;Full Patrol</h4>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div style="margin-top:20px;" class="mycard" (click)="fnOpenQuickPatrolPage();">
+        <table>
+          <tr>
+            <td style="padding-left: 15px;padding-top: 15px;">
+              <img src="../../assets/images/userrunning.png" style="height: 60px; width: 60px;" alt="Avatar">
+            </td>
+            <td>
+              <h4 style="margin-top:0px;margin-bottom:0px;">&nbsp;&nbsp;&nbsp;Quick Patrol</h4>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- <div style="margin-top:20px;" class="mycard" (click)="fnUnfinishedPatrols();">
+        <table>
+          <tr>
+            <td style="padding-left: 15px;padding-top: 15px;">
+              <img src="../../assets/images/unfinished.png" style="height: 60px; width: 60px;" alt="Avatar">
+            </td>
+            <td>
+              <h4 style="margin-top:0px;margin-bottom:0px;">&nbsp;&nbsp;&nbsp;Unfinished Patrols</h4>
+            </td>
+          </tr>
+        </table>
+      </div> -->
+      <!-- <div style="margin-top:20px;" class="mycard" (click)="fnExitApp();">
+        <table>
+          <tr>
+            <td style="padding-left: 15px;padding-top: 15px;">
+              <img src="../../assets/images/logout.png" style="height: 60px; width: 60px;" alt="Avatar">
+            </td>
+            <td>
+              <h4 style="margin-top:0px;margin-bottom:0px;">&nbsp;&nbsp;&nbsp;Exit</h4>
+            </td>
+          </tr>
+        </table>
+      </div> -->
+    </div>
+    <!-- <div style="width:100%;position: fixed;bottom: 0;padding-top: 10px; border-top:1px dashed #000">
+      <table>
+        <tr>
+          <td>
+            <h4>Logout</h4>
+          </td>
+          <td>
+            <img src="../../assets/images/logout.png" style="height: 20px; width: 40px;" alt="Avatar">
+          </td>
+        </tr>
+      </table>
+    </div> -->
+  
+</ion-content>

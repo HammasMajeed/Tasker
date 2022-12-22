@@ -1,0 +1,74 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar  style="--background: {{toolBarBgColor}}">
+    <ion-title  style="--background: {{titleBarBgColor}}; --color:{{titleTextColor}}">
+      <img src="{{imgSrc}}" id="imgLogo"  style="margin-top:15px;">
+      <br>
+      <h4 style="margin-top:0px;padding-top: 10px;">{{buildingInfo}}</h4>
+      <h5>{{username}}</h5>
+    </ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard-patrol" style="color:#000;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+     Instructions
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div style="background-color: #fff;padding:5px;">
+    <div style="background-color: #f7f7f7; border: 1px dashed #ddd;
+    padding: 10px;">
+      <!-- <p style="text-align: justify;"> -->
+        This is 8 steps process.
+      <ol style="text-align: justify;">
+        <li>
+          Press <b>Full Patrol or Quick Patrol</b> button on the app.
+        </li>
+        <li>
+         Full Patrol will be started immediately while quick patrol let you choose the locations.
+        </li>
+        <li>
+          After patrol started, there will be location name with details and the scan button. Press the <b>Scan</b> button
+        </li>
+        <li>
+          It will ask you to allow camera permission. <b>Allow</b> the app to access camera in order to scan. (It only asks
+          on first time)
+        </li>
+        <li>
+          <b>Scan</b> the QR code
+        </li>
+        <li>
+          Add <b>images, vidoes and remarks</b> (optional)
+        </li>
+        <li>
+          After successful scan, the location name and description will be updated, follow step 4
+        </li>
+        <li>
+          When the last location is scanned, the finish screen will be open and the patrolling is completed.
+        </li>
+      </ol>
+      Note:
+      <ul  style="text-align: justify;">
+        <li>
+          Your patrol will be started when you entered in Full or Quick patrol locations, that is before scanning the first QR.
+        </li>
+        <li>
+          Each time you scan the QR code, your progress will be uploaded on in device not online. Please make sure you have complete the patrol and not close the window, otherwise your progress will be discarded.
+        </li>
+        <li>
+          You can edit the images, vidoes and remarks by next and previous buttons on screen. <b>Do not use back button of mobile.</b>
+        </li>
+        <li>
+          Your patrolling time will end when you scan the last QR Code.
+        </li>
+      </ul>
+      <!-- </p> -->
+    </div>
+    <ion-button  style="margin-top: 50px;" expand="block" (click)="fnReturnToDashboard();" color="primary">Return to dashboard</ion-button>
+    </div>
+</ion-content>

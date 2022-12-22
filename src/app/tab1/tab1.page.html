@@ -1,0 +1,112 @@
+
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" style=" --color:#000;"></ion-menu-button>
+    </ion-buttons>
+    <ion-title style="text-align: center;">
+      <span style="    font-size: 17px;">Task Management</span>
+<label style="display: block;font-size: 10px;">{{username}}</label>
+      <img id="imgLogo" src="{{imgSrc}}" style=" position: absolute;
+      height: 37px;
+      right: 10px;
+      top:0px;
+      ">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<!-- Custom Refresher Properties -->
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div
+    style="background-color: #fff;border-top-left-radius: 20px;border-top-right-radius: 20px;padding-top:0px;padding-right: 0px;padding-left: 0px;">
+    
+    <ion-grid class="grdCardButtons" style="margin-top:10px;">
+        <ion-row>
+          <ion-col size="6" style="padding:0px;" (click)="fnMoveToAttendance()">
+            <ion-card style="margin-left:10px;margin-right:5px;margin-top:0px;background-color: #f6c23e;
+            background-image: linear-gradient(180deg,#f6c23e 10%,#dda20a 100%);">
+              <ion-card-header>
+                <ion-card-title style="color:white;text-align: center;">
+                  <div> <img src="../../assets/images/attendance.png" style="height:40px;width:50px;"></div>
+                  Attendance
+                </ion-card-title>
+              </ion-card-header>
+            </ion-card>
+          </ion-col>
+          <ion-col size="6" style="padding:0px;" (click)="fnMoveToTasks()">
+            <ion-card style="margin-left:10px;margin-right:5px;margin-top:0px;background-color: #4e73df;
+            background-image: linear-gradient(
+        180deg
+        ,#4e73df 10%,#224abe 100%);">
+              <ion-card-header>
+                <ion-card-title style="color:white;text-align: center;">
+                  <div> <img src="../../assets/images/task.png" style="height:40px;width:50px;"></div>
+                  Tasks
+                </ion-card-title>
+              </ion-card-header>
+            </ion-card>
+          </ion-col>
+       
+          <ion-col size="6" style="padding:0px;" (click)="fnMoveToPatrol()">
+            <ion-card style="margin-left:10px;margin-right:5px;margin-top:0px;background-color: #858796;
+            background-image: linear-gradient(180deg,#858796 10%,#60616f 100%);">
+              <ion-card-header>
+                <ion-card-title style="color:white;text-align: center;">
+                  <div> <img src="../../assets/images/patrolling.png" style="height:40px;width:50px;"></div>
+                Patrol
+                </ion-card-title>
+              </ion-card-header>
+            </ion-card>
+          </ion-col>
+          <ion-col size="6" style="padding:0px;" (click)="fnMoveToLeaves()">
+            <ion-card style="margin-left:10px;margin-right:5px;margin-top:0px;background-color: #e74a3b;
+            background-image: linear-gradient(
+        180deg
+        ,#e74a3b 10%,#be2617 100%);">
+              <ion-card-header>
+                <ion-card-title style="color:white;text-align: center;">
+                  <div> <img src="../../assets/images/leaves.png" style="height:40px;width:50px;"></div>
+                  Leaves
+                </ion-card-title>
+              </ion-card-header>
+            </ion-card>
+          </ion-col>
+          <ion-col size="6" style="padding:0px;" (click)="fnMoveExpense()">
+            <ion-card style="margin-left:10px;margin-right:5px;margin-top:0px;background-color: #1cc88a;
+            background-image: linear-gradient(
+        180deg
+        ,#1cc88a 10%,#13855c 100%);">
+              <ion-card-header>
+                <ion-card-title style="color:white;text-align: center;">
+                  <div> <img src="../../assets/images/expenses.png" style="height:40px;width:50px;"></div>
+                  Expenses
+                </ion-card-title>
+              </ion-card-header>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div style="margin-top: 10px;
+      padding-left: 10px;
+      padding-right: 10px;
+      margin-left: 10px;
+      margin-right: 10px;
+      padding-bottom: 10px;
+      border: 1px solid #ddd;">
+        <h4>Notice Board</h4>
+        <div style="text-align: center;" id="divLoaderNotice"> <ion-spinner name="dots"></ion-spinner></div>
+        <ion-card style="margin-top:10px;margin-right:0px;margin-left:0px;margin-bottom:10px" *ngFor="let item of lstNotices">
+      
+          <ion-card-content style="padding: 8px;" class="divContentOfCards">
+            <label style="color:#000;">{{item.Notice}}</label>
+          </ion-card-content>
+        </ion-card>
+        
+      </div>
+  </div>
+ 
+</ion-content>
