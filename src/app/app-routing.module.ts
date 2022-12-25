@@ -57,6 +57,10 @@ const routes: Routes = [
     path: 'quick-patrol',
     loadChildren: () => import('./quick-patrol/quick-patrol.module').then( m => m.QuickPatrolPageModule)
   },
+  {
+    path: 'change-password',
+    loadChildren: () => import('./change-password/change-password.module').then( m => m.ChangePasswordPageModule)
+  },
 ];
 @NgModule({
   imports: [

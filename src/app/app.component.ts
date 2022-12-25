@@ -42,6 +42,11 @@ export class AppComponent {
       icon: 'headset'
     },
     {
+      title: 'Change Password',
+      url: '/change-password',
+      icon: 'key'
+    },
+    {
       title: 'Logout',
       url: '/home',
       icon: 'power-sharp'
