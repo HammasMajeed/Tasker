@@ -1,0 +1,21 @@
+
+<ion-header [translucent]="true" id="hideHeader">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab1" style="color:#000;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Choose Report
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="margin: 20px;" >
+<label style="color:blueviolet;" (click)="fnOpenUnPublishedReports();"><u>UnPublished Reports</u></label>
+
+    <div class="mycard" (click)="fnOpenIncidentReports();">
+      <h4 style="margin-top:0px;margin-bottom:0px;">Incident Reports</h4>
+    </div>
+  </div>
+</ion-content>

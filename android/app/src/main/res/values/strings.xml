@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Tasker</string>
-    <string name="title_activity_main">Tasker</string>
-    <string name="package_name">io.ionic.scitfortetaskmanagement</string>
-    <string name="custom_url_scheme">io.ionic.scitfortetaskmanagement</string>
+    <string name="app_name">MBN Tasker</string>
+    <string name="title_activity_main">MBN Tasker</string>
+    <string name="package_name">io.ionic.mbntasker</string>
+    <string name="custom_url_scheme">io.ionic.mbntasker</string>
 </resources>

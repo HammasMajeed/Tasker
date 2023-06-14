@@ -3,8 +3,8 @@ import { LoadingController } from '@ionic/angular';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 export class PortalModel {
-  //static ApiUrl: string = "http://localhost:55287";
-  static ApiUrl: string = "http://107.180.1.24/plesk-site-preview/tasker.scitforte.net";
+  static ApiUrl: string = "http://localhost:55287";
+ // static ApiUrl: string = "http://mbntasker.com";
 
   
   constructor(private toastController: ToastController,
@@ -26,6 +26,11 @@ export class PortalModel {
   }
   fnDelay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  fnArrayRemove(arr, value) {
+    return arr.filter(function (ele) {
+      return ele != value;
+    });
   }
   fnRemoveTags(str) {
     if ((str === null) || (str === ''))

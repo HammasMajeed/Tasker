@@ -68,6 +68,11 @@ export class Tab1Page {
 
   }
 
+
+  fnMoveToReports(){
+    this.router.navigateByUrl('choose-report');
+  }
+
   ionViewDidEnter() {
    
     this.plt.ready().then(async (readySource) => {

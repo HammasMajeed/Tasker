@@ -116,8 +116,9 @@ export class CheckInOutPage implements OnInit {
               
               if (response.responseType == 1) {
                 this.objPortalModel.presentToast("Successfully Registered");
+                this.router.navigateByUrl("tabs/tab1");
               }else{
-                this.objPortalModel.presentToast("Could not register!");
+                this.objPortalModel.presentToast(response.Msg);
               }
             }, error => {
               loadingEl.dismiss();
@@ -191,6 +192,26 @@ export class CheckInOutPage implements OnInit {
   }
 
   fnDoCheckInOut(type) {
+            // this.loadingController
+            //   .create({ keyboardClose: true, message: 'Please wait...' })
+            //   .then(loadingEl => {
+            //     loadingEl.present();
+            //     let url = PortalModel.ApiUrl + "/Attendance/DoAttendance?userID=" + this.UserID + "&username=" + this.Username + "&type=" + type + "&LatitudeCheckIn=" + 1 + "&LongitudeCheckIn=" + 1 + "&imeiNumber=" + this.thisMobileImei;
+            //     this.http.get(url)
+            //       .subscribe(data => {
+            //         loadingEl.dismiss();
+            //         let response = JSON.parse(JSON.stringify(data));
+            //         if (response.responseType == 1) {
+            //           this.fnGetCheckInOuts();
+            //         } else {
+            //           this.objPortalModel.presentToast(response.Msg);
+            //         }
+            //       }, error => {
+            //         loadingEl.dismiss();
+            //         this.objPortalModel.presentToast("No Internet Connection!");
+            //       });
+            //   });
+
     //this.thisMobileImei = "76151";
     if (this.workerMobileImei && this.thisMobileImei && this.workerMobileImei == this.thisMobileImei) {
       this.objPortalModel.presentToastWithDuration("Please wait...", 4000);

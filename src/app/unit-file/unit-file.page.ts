@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { Platform } from '@ionic/angular';
 import * as $ from "jquery";
-import { isThursday } from 'date-fns';
+
 @Component({
   selector: 'app-unit-file',
   templateUrl: './unit-file.page.html',

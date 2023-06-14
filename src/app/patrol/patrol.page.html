@@ -26,7 +26,7 @@
       <div style="margin-top: 20px;"><label>Description: {{description}}</label></div>
     </div>
     <ion-button style="margin-top: 15px;" expand="block" (click)="scan();" color="primary">Scan</ion-button>
-
+    <div style="text-align: center;margin-top:10px;"><label (click)="fnSkipLocation();"><u>Skip Location</u></label></div>
     <div style="margin-top: 10px;">
       <label>You can add images/videos or write remarks before scanning the spot.</label>
     </div>
@@ -53,18 +53,18 @@
 
     <ion-grid>
       <ion-row style="padding: 0px;">
-        <ion-col width-50 (click)="fnAddPhotoToGallery();">
+        <ion-col width-100 (click)="fnAddPhotoToGallery();">
           <div style="text-align: center;background-color: rgb(245, 242, 240);padding: 5px;">
             <img src="../../assets/images/camera.png" style="height: 40px; width: 50px;">
             <div class="card-subtitle">Add Image</div>
           </div>
         </ion-col>
-        <ion-col width-50 (click)="fnAddVideo();">
+        <!-- <ion-col width-50 (click)="fnAddVideo();">
           <div style="text-align: center;background-color: rgb(245, 242, 240);padding: 5px;">
             <img src="../../assets/images/video.png" style="height: 40px; width: 45px;">
             <div class="card-subtitle">Add Video</div>
           </div>
-        </ion-col>
+        </ion-col> -->
       </ion-row>
     </ion-grid>
 

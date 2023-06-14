@@ -1,0 +1,269 @@
+<ion-header [translucent]="true" id="hideHeader">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="choose-report" style="color:#000;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Incident Report
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-slides (ionSlideDidChange)="slideChanged()" [options]="slideOpts" #slideWithNav>
+    <ion-slide>
+      <h3>Basic Info</h3>
+      <div class="divContent">
+        <ion-item counter="true">
+          <ion-label position="floating">Master License #</ion-label>
+          <ion-input [(ngModel)]="txtMasterLicenseNo" maxlength="250"></ion-input>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">License #</ion-label>
+          <ion-input [(ngModel)]="txtLicenseNo" maxlength="250"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Incident Type</ion-label>
+          <ion-select [(ngModel)]="ddlIncidentType" interface="action-sheet">
+            <ion-select-option value="Anti-Social Behaviour">Anti-Social Behaviour</ion-select-option>
+            <ion-select-option value="Fire Hazards">Fire Hazards</ion-select-option>
+            <ion-select-option value="Noise Complain">Noise Complain</ion-select-option>
+            <ion-select-option value="Alarm System Occurence">Alarm System Occurence</ion-select-option>
+            <ion-select-option value="Doors or Aisleways blocked">Doors or Aisleways blocked</ion-select-option>
+            <ion-select-option value="Doors or Windows insecure">Doors or Windows insecure</ion-select-option>
+            <ion-select-option value="Elevator Entrapment">Elevator Entrapment</ion-select-option>
+            <ion-select-option value="Elevator Malfunction">Elevator Malfunction</ion-select-option>
+            <ion-select-option value="Equipment Failure">Equipment Failure</ion-select-option>
+            <ion-select-option value="Fires">Fires</ion-select-option>
+            <ion-select-option value="Flood">Flood</ion-select-option>
+            <ion-select-option value="Infraction of Rules">Infraction of Rules</ion-select-option>
+            <ion-select-option value="Parking Lot Occurence">Parking Lot Occurence</ion-select-option>
+            <ion-select-option value="Rounds Missed">Rounds Missed</ion-select-option>
+            <ion-select-option value="Safety Hazards">Safety Hazards</ion-select-option>
+            <ion-select-option value="Theft Occurence">Theft Occurence</ion-select-option>
+            <ion-select-option value="Armed Robbery">Armed Robbery</ion-select-option>
+            <ion-select-option value="Robbery">Robbery</ion-select-option>
+            <ion-select-option value="Trespassers">Trespassers</ion-select-option>
+            <ion-select-option value="Break in">Break in</ion-select-option>
+            <ion-select-option value="Valuables">Valuables</ion-select-option>
+            <ion-select-option value="Waste. Water, Power">Waste. Water, Power</ion-select-option>
+            <ion-select-option value="Water Leak">Water Leak</ion-select-option>
+            <ion-select-option value="Other">Other</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item id="open-modal-incident-date-time" counter="true">
+          <ion-label position="floating">Incident Date Time</ion-label>
+          <ion-input readonly="true" [(ngModel)]="lblIncidentDateTime"></ion-input>
+        </ion-item>
+        <ion-modal style="--height:{{dateModalHeight}}" trigger="open-modal-incident-date-time">
+          <ng-template>
+            <ion-content>
+              <ion-datetime showDefaultButtons="true" (ionChange)="GetIncidentDateTime()"
+                [(ngModel)]="IncidentDateTimeValue" presentation="date-time" displayFormat="DD-MMM-YYYY hh:mm A">
+                <div slot="title">Incident Date Time</div>
+              </ion-datetime>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+        <ion-item>
+          <ion-label>Client Site</ion-label>
+          <ionic-selectable placeholder="-- Select --" [(ngModel)]="ddlClientSite" [items]="lstClientSites"
+            itemValueField="ClientSiteID" itemTextField="SiteName" [canSearch]="true">
+          </ionic-selectable>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">Incident Details</ion-label>
+          <ion-textarea [(ngModel)]="txtDetails" rows="5" maxlength="10000"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-checkbox [(ngModel)]="IsAnyBodyInjured" slot="start"></ion-checkbox>
+          <ion-label>Is Any Body Injured?</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox [(ngModel)]="IsIncidentWithWhs" slot="start"></ion-checkbox>
+          <ion-label>Is Incident With WHS?</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox [(ngModel)]="IsEmergencyServicesOnSite" slot="start"></ion-checkbox>
+          <ion-label>Are Emergency Services On Site?</ion-label>
+        </ion-item>
+
+        <ion-item [hidden]="!IsEmergencyServicesOnSite" counter="true">
+          <ion-label position="floating">Emergency Services Details</ion-label>
+          <ion-textarea [(ngModel)]="txtEmergencyServicesDetails" rows="5" maxlength="10000"></ion-textarea>
+        </ion-item>
+
+        <ion-item counter="true">
+          <ion-label position="floating">Prohibition Notice Given</ion-label>
+          <ion-textarea [(ngModel)]="txtProhibitionNoticeGiven" rows="5" maxlength="10000"></ion-textarea>
+        </ion-item>
+
+      </div>
+    </ion-slide>
+
+    <ion-slide>
+      <h3>Witness Details</h3>
+      <div class="divContent">
+        <ion-item counter="true">
+          <ion-label position="floating">Witness Name</ion-label>
+          <ion-input [(ngModel)]="txtWitnessName" maxlength="250"></ion-input>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">Witness Contact Number/Email</ion-label>
+          <ion-input [(ngModel)]="txtWitnessContact" maxlength="250"></ion-input>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">Witness Involvement</ion-label>
+          <ion-input [(ngModel)]="txtWitnessInvolvement" maxlength="250"></ion-input>
+        </ion-item>
+      </div>
+
+    </ion-slide>
+
+    <ion-slide>
+      <h3>Persons Involved List</h3>
+      <h5><b>Add the persons to list</b></h5>
+      <div class="divContent">
+        <ion-item counter="true">
+          <ion-label position="floating">Was Involved As</ion-label>
+          <ion-input [(ngModel)]="txtInvolvedAs" maxlength="250"></ion-input>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">Name</ion-label>
+          <ion-input [(ngModel)]="txtInvolvedName" maxlength="250"></ion-input>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">Phone</ion-label>
+          <ion-input [(ngModel)]="txtInvolvedPhone" maxlength="250"></ion-input>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">Appearance</ion-label>
+          <ion-input [(ngModel)]="txtInvolvedAppearance" maxlength="5000"></ion-input>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">Age (Enter numbers)</ion-label>
+          <ion-input type="number" [(ngModel)]="txtInvolvedAge" maxlength="3"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Gender</ion-label>
+          <ion-select [(ngModel)]="ddlInvolvedGender" interface="action-sheet">
+            <ion-select-option value="Male">Male</ion-select-option>
+            <ion-select-option value="Female">Female</ion-select-option>
+            <ion-select-option value="Other">Other</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">Build</ion-label>
+          <ion-input [(ngModel)]="txtInvolvedBuild" maxlength="50"></ion-input>
+        </ion-item>
+
+        <ion-item counter="true">
+          <ion-label position="floating">Height</ion-label>
+          <ion-input [(ngModel)]="txtInvolvedHeight" maxlength="50"></ion-input>
+        </ion-item>
+
+        <ion-item counter="true">
+          <ion-label position="floating">Hair</ion-label>
+          <ion-input [(ngModel)]="txtInvolvedHair" maxlength="50"></ion-input>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">Facial Hair</ion-label>
+          <ion-input [(ngModel)]="txtInvolvedFacialHair" maxlength="50"></ion-input>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">Clothing Top</ion-label>
+          <ion-input [(ngModel)]="txtInvolvedClothingTop" maxlength="250"></ion-input>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">Clothing Bottom</ion-label>
+          <ion-input [(ngModel)]="txtInvolvedClothingBottom" maxlength="250"></ion-input>
+        </ion-item>
+        <ion-item counter="true">
+          <ion-label position="floating">Additional Details</ion-label>
+          <ion-textarea [(ngModel)]="txtInvolvedAdditionalDetails" rows="5" maxlength="10000"></ion-textarea>
+        </ion-item>
+
+        <ion-button (click)="fnAddPersonToList();" expand="block" color="warning" shape="round">
+          Add Person to List
+        </ion-button>
+        <div style="margin-top:20px;" *ngIf="lstPersonsInvolved.length > 0">
+          <h4>List</h4>
+          <ion-list>
+            <ion-item *ngFor="let item of lstPersonsInvolved;let i = index">
+              <label>{{i+1}}# {{item.Gender}} - {{item.Name}}</label>
+              <span style="position: absolute;right: 0;font-size: 30px;" (click)="fnRemovePersonFromArray_(item.Id)">
+                <ion-icon name="trash"></ion-icon></span>
+              <span style="position: absolute;right: 30px;font-size: 30px;" (click)="fnEditPerson(item.Id)"> <ion-icon
+                  name="create"></ion-icon></span>
+            </ion-item>
+          </ion-list>
+        </div>
+
+      </div>
+
+
+    </ion-slide>
+    <ion-slide>
+      <h3>Pictures</h3>
+      <div class="divContent">
+        <ion-grid>
+          <ion-row style="padding: 0px;">
+            <ion-col width-100 (click)="fnAddPhotoToGallery_();">
+              <div style="text-align: center;background-color: rgb(245, 242, 240);padding: 5px;">
+                <img src="../../assets/images/camera.png" style="height: 40px; width: 50px;">
+                <div class="card-subtitle">Upload Images</div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div [hidden]="!IsUploadingFile" style="margin-top: 10px;">
+          <label>{{lblUploadingText}}</label>
+          <ion-progress-bar [value]="progressPercentage"></ion-progress-bar>
+        </div>
+        <div style="margin-top:10px;text-align: center;">
+          <div style="display: inline-block;" *ngFor="let item of displayMedia" id="img-{{item.Id}}">
+            <img style="margin-left:6px;width:100px;height:100px;" src="{{item.src}}" />
+
+            <!-- <app-preview-image></app-preview-image> -->
+            <span (click)="fnRemoveImageFromArray_(item.Id)" style="
+                            position: absolute;
+                            vertical-align: top;
+                            margin-left: -17px;
+                            background: #fff;
+                            color: #000;
+                            padding: 1px;">
+              <ion-icon name="trash"></ion-icon>
+            </span>
+          </div>
+        </div>
+      </div>
+    </ion-slide>
+
+    <ion-slide>
+      <h3>Geo Location</h3>
+
+      <div class="divContent">
+
+        <label>Please make sure you have turned on your location.</label>
+        <ion-button (click)="fnGetMyLocation()" color="success" shape="round" expand="block"><ion-icon slot="start" name="locate"></ion-icon> Fetch my location</ion-button>
+        <div *ngIf="latitude && longitude">
+            <label>My Latitude: </label><label><b>{{latitude}}</b></label>
+            <div><label>My Longitude: </label><label><b>{{longitude}}</b></label></div>
+        </div>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
+<div class="divFooter" style="padding: 5px;width:100%;display: flex;    justify-content: space-around;">
+  <ion-button [hidden]="!IsPrevBtnShown" style="width: 100%;" (click)="fnBackSlide()" shape="round" color="danger"
+    expand="block">
+    Back
+  </ion-button>
+  <ion-button (click)="fnNextSlide()" shape="round" style="width: 100%;" color="primary" expand="block">
+    {{lblNext}}
+  </ion-button>
+  <ion-button [hidden]="!IsPrevBtnShown"  (click)="fnSaveIncidentReportOnly()" shape="round" style="width: 100%;" color="secondary" expand="block">
+    Save & Exit
+  </ion-button>
+</div>

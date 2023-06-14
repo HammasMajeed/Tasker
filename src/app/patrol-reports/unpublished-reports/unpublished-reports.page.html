@@ -1,0 +1,22 @@
+<ion-header [translucent]="true" id="hideHeader">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="choose-reports" style="color:#000;"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Un Published Reports</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <h3 style="margin-left:20px;">List</h3>
+
+  <ion-list>
+    <ion-item (click)="fnOpenReport(item.ReportType,item.ReportID)" *ngFor="let item of lstReports">
+      <ion-label>
+        <h4><b>{{item.ReportType}}</b></h4>
+        <h5>{{item.Title}}</h5>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -61,6 +61,23 @@ const routes: Routes = [
     path: 'change-password',
     loadChildren: () => import('./change-password/change-password.module').then( m => m.ChangePasswordPageModule)
   },
+  {
+    path: 'incident-report',
+    loadChildren: () => import('./patrol-reports/incident-report/incident-report.module').then( m => m.IncidentReportPageModule)
+  },
+  {
+    path: 'maintenance-report',
+    loadChildren: () => import('./patrol-reports/maintenance-report/maintenance-report.module').then( m => m.MaintenanceReportPageModule)
+  },
+  {
+    path: 'choose-report',
+    loadChildren: () => import('./patrol-reports/choose-report/choose-report.module').then( m => m.ChooseReportPageModule)
+  },
+  {
+    path: 'unpublished-reports',
+    loadChildren: () => import('./patrol-reports/unpublished-reports/unpublished-reports.module').then( m => m.UnpublishedReportsPageModule)
+  },
+ 
 ];
 @NgModule({
   imports: [

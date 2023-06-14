@@ -20,6 +20,7 @@ import { SpinnerDialog } from '@awesome-cordova-plugins/spinner-dialog/ngx';
 // import { Camera } from '@awesome-cordova-plugins/camera/ngx';
 import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
 import { FTP } from '@awesome-cordova-plugins/ftp/ngx';
+import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -36,7 +37,8 @@ import { FTP } from '@awesome-cordova-plugins/ftp/ngx';
     SpinnerDialog,
     MediaCapture,
     WebView,
-    FTP
+    FTP,
+    ImagePicker
     ],
   bootstrap: [AppComponent],
 })
