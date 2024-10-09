@@ -4,7 +4,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 export class PortalModel {
   static ApiUrl: string = "http://localhost:55287";
- // static ApiUrl: string = "http://mbntasker.com";
 
   
   constructor(private toastController: ToastController,

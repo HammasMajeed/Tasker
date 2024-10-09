@@ -10,11 +10,7 @@ import * as moment from 'moment';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { Platform } from '@ionic/angular';
 import * as $ from "jquery";
-// import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { ActionSheetController } from '@ionic/angular';
-// import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
-// import { Uid } from '@ionic-native/uid/ngx';
-import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { Device } from '@capacitor/device';
 import { Geolocation } from '@capacitor/geolocation';
 
@@ -37,61 +33,32 @@ export class CheckInOutPage implements OnInit {
   toDateValue = '';
   lblFromDate: string = "";
   lblToDate: string = "";
-  lblDeviceID:string="";
+  lblDeviceID: string = "";
   workerAttendanceLocation = "";
   workerMobileImei = "";
-  thisMobileImei="";
-  StrShiftStartsAt="";
-  StrShiftEndsAt="";
-  constructor( 
-    // private uid: Uid,
-    private androidPermissions: 
-    AndroidPermissions,
-    // private uniqueDeviceID: UniqueDeviceID,
-    // public geolocation: Geolocation, 
-    public actionSheetController: ActionSheetController, 
-    private iab: InAppBrowser, 
-    public plt: Platform, 
-    private router: Router, 
+  thisMobileImei = "";
+  StrShiftStartsAt = "";
+  StrShiftEndsAt = "";
+  constructor(
+    public actionSheetController: ActionSheetController,
+    private iab: InAppBrowser,
+    public plt: Platform,
+    private router: Router,
     public toastController: ToastController,
-    public http: HttpClient, 
-    private storage: Storage, 
+    public http: HttpClient,
+    private storage: Storage,
     private loadingController: LoadingController
-    ) {
+  ) {
     this.objPortalModel = new PortalModel(this.toastController, this.loadingController, this.http);
     this.plt.ready().then((readySource) => {
       storage.create();
     });
   }
-  
-  // getUniqueDeviceID() {
-  //   console.log("Getting Device ID");
-
-    
-
-
-  //   // const logDeviceInfo = async () => {
-  //   //   const info = await Device.getId();
-  //   //   //this.thisMobileImei = info;
-  //   //   console.log('get getUniqueDeviceID = ',info);
-  //   // }
-  //   // this.uniqueDeviceID.get()
-  //   // .then((uuid: any) => {
-  //   //   console.log(uuid);
-  //   //   this.lblDeviceID = uuid;
-  //   //   this.thisMobileImei = uuid;
-  //   // })
-  //   // .catch((error: any) => {
-  //   //   console.log(error);
-  //   //   this.thisMobileImei = "Error! ${error}";
-  //   // });
-  // }
 
   async getUniqueDeviceID() {
     const info1 = await Device.getId();
-    console.log('get getUniqueDeviceID = ', info1);
-    this.lblDeviceID = info1.uuid;
-    this.thisMobileImei = info1.uuid;
+    this.lblDeviceID = info1.identifier;
+    this.thisMobileImei = info1.identifier;
   }
   ngOnInit() {
   }
@@ -102,30 +69,30 @@ export class CheckInOutPage implements OnInit {
     this.lblToDate = moment(this.toDateValue).format('DD-MMM-YYYY');
   }
   fnOneTimeRegistration() {
-    if(this.thisMobileImei){
+    if (this.thisMobileImei) {
       if (confirm("Please make sure this is your regular device. Are you sure you want to register this device?")) {
         this.loadingController
-        .create({ keyboardClose: true, message: 'Please wait...' })
-        .then(loadingEl => {
-          loadingEl.present();
-          let url = PortalModel.ApiUrl + "/Worker/OneTimeDeviceRegistration?userID=" + this.UserID+"&ImeiNumber="+this.thisMobileImei;
-          this.http.get(url)
-            .subscribe(data => {
-              loadingEl.dismiss();
-              let response = JSON.parse(JSON.stringify(data));
-              
-              if (response.responseType == 1) {
-                this.objPortalModel.presentToast("Successfully Registered");
-                this.router.navigateByUrl("tabs/tab1");
-              }else{
-                this.objPortalModel.presentToast(response.Msg);
-              }
-            }, error => {
-              loadingEl.dismiss();
-              console.log(error);
-              this.objPortalModel.presentToast("No Internet Connection!");
-            });
-        });
+          .create({ keyboardClose: true, message: 'Please wait...' })
+          .then(loadingEl => {
+            loadingEl.present();
+            let url = PortalModel.ApiUrl + "/Worker/OneTimeDeviceRegistration?userID=" + this.UserID + "&ImeiNumber=" + this.thisMobileImei;
+            this.http.get(url)
+              .subscribe(data => {
+                loadingEl.dismiss();
+                let response = JSON.parse(JSON.stringify(data));
+
+                if (response.responseType == 1) {
+                  this.objPortalModel.presentToast("Successfully Registered");
+                  this.router.navigateByUrl("tabs/tab1");
+                } else {
+                  this.objPortalModel.presentToast(response.Msg);
+                }
+              }, error => {
+                loadingEl.dismiss();
+                console.log(error);
+                this.objPortalModel.presentToast("No Internet Connection!");
+              });
+          });
       }
     } else {
       this.objPortalModel.presentToast("Please allow application and reload if required!");
@@ -192,25 +159,25 @@ export class CheckInOutPage implements OnInit {
   }
 
   fnDoCheckInOut(type) {
-            // this.loadingController
-            //   .create({ keyboardClose: true, message: 'Please wait...' })
-            //   .then(loadingEl => {
-            //     loadingEl.present();
-            //     let url = PortalModel.ApiUrl + "/Attendance/DoAttendance?userID=" + this.UserID + "&username=" + this.Username + "&type=" + type + "&LatitudeCheckIn=" + 1 + "&LongitudeCheckIn=" + 1 + "&imeiNumber=" + this.thisMobileImei;
-            //     this.http.get(url)
-            //       .subscribe(data => {
-            //         loadingEl.dismiss();
-            //         let response = JSON.parse(JSON.stringify(data));
-            //         if (response.responseType == 1) {
-            //           this.fnGetCheckInOuts();
-            //         } else {
-            //           this.objPortalModel.presentToast(response.Msg);
-            //         }
-            //       }, error => {
-            //         loadingEl.dismiss();
-            //         this.objPortalModel.presentToast("No Internet Connection!");
-            //       });
-            //   });
+    // this.loadingController
+    //   .create({ keyboardClose: true, message: 'Please wait...' })
+    //   .then(loadingEl => {
+    //     loadingEl.present();
+    //     let url = PortalModel.ApiUrl + "/Attendance/DoAttendance?userID=" + this.UserID + "&username=" + this.Username + "&type=" + type + "&LatitudeCheckIn=" + 1 + "&LongitudeCheckIn=" + 1 + "&imeiNumber=" + this.thisMobileImei;
+    //     this.http.get(url)
+    //       .subscribe(data => {
+    //         loadingEl.dismiss();
+    //         let response = JSON.parse(JSON.stringify(data));
+    //         if (response.responseType == 1) {
+    //           this.fnGetCheckInOuts();
+    //         } else {
+    //           this.objPortalModel.presentToast(response.Msg);
+    //         }
+    //       }, error => {
+    //         loadingEl.dismiss();
+    //         this.objPortalModel.presentToast("No Internet Connection!");
+    //       });
+    //   });
 
     //this.thisMobileImei = "76151";
     if (this.workerMobileImei && this.thisMobileImei && this.workerMobileImei == this.thisMobileImei) {
@@ -301,8 +268,8 @@ export class CheckInOutPage implements OnInit {
               } else {
                 $("#divRegister").hide();
               }
-            }else{
-              if(response.Result="No shift is assigned today!"){
+            } else {
+              if (response.Result = "No shift is assigned today!") {
                 this.DoCheckInOut = false;
               }
             }

@@ -479,8 +479,7 @@ fnSkipLocation(){
       encoding: Encoding.UTF8,
     });
 
-    console.log('Read file data:', contents.data);
-    var obj = JSON.parse(contents.data);
+    var obj = JSON.parse(contents.data.toString());
     var details = obj.find(x => x.PatrolledID == PatrolledID);
     if (details) {
       //console.log("Locally Saved Data: " + JSON.stringify(obj));
@@ -743,9 +742,8 @@ fnSkipLocation(){
       encoding: Encoding.UTF8,
     });
 
-    console.log('Read file data:', contents.data);
 
-    var response = JSON.parse(contents.data);
+    var response = JSON.parse(contents.data.toString());
 
     var obj = response.filter(x => x.patrolID == this.patrolID);
     this.IsUploadingFile = true;
@@ -753,7 +751,7 @@ fnSkipLocation(){
       .create({ keyboardClose: true, message: 'Connecting to server...' })
       .then(loadingElServer => {
         loadingElServer.present();
-        this.fTP.connect('208.91.199.17', 'PatrolDocs', '!patroldocs1995')
+        this.fTP.connect('107.180.1.24', 'PatrolDocs', '!patroldocs1995')
           .then((res: any) => {
             console.log('Login successful', res);
             loadingElServer.dismiss();

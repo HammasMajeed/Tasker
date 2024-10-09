@@ -64,20 +64,15 @@ export class DashboardPatrolPage implements OnInit {
     return await loading.present();
   }
   fnGetPersonIsEligbleForPatrolling(){
-   // this.presentLoading();
-  // this.spinnerDialog.show();
   let url = PortalModel.ApiUrl+"/Users/IsUserEligibleForPatrol?lstUsersFromMobile="+this.lstUsers;
     this.http.get(url)
     .subscribe(data => {
-    //  this.loadingController.dismiss();
       let response = JSON.parse(JSON.stringify(data));
-    //  this.spinnerDialog.hide();
     if(response.responseType!=1){
       this.router.navigateByUrl("home")
       this.objPortalModel.presentToast("User does not have permission to do patrol!");
   }
     }, error => {
-     // this.spinnerDialog.hide();
       this.objPortalModel.presentToast("No Internet Connection!");
     });
   }
