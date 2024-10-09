@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
 
-  appId: 'io.ionic.scitfortetaskmanagement',
+  appId: 'io.ionic.scitfortetasker',
   appName: 'Tasker',
   webDir: 'www',
   bundledWebRuntime: false,

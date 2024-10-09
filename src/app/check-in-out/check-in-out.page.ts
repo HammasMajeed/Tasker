@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { PortalModel } from '../Utilities/PortalModel';
 import { IonDatetime } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -13,7 +13,8 @@ import * as $ from "jquery";
 import { ActionSheetController } from '@ionic/angular';
 import { Device } from '@capacitor/device';
 import { Geolocation } from '@capacitor/geolocation';
-
+import { WorkerTrackingService } from '../services/worker-tracking/worker-tracking.service'
+import { ReusableComponentsService } from '../services/general-reusable/reusable-components.service'
 @Component({
   selector: 'app-check-in-out',
   templateUrl: './check-in-out.page.html',
@@ -47,7 +48,9 @@ export class CheckInOutPage implements OnInit {
     public toastController: ToastController,
     public http: HttpClient,
     private storage: Storage,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private workerTrackingService: WorkerTrackingService,
+    private reusableComponentsService: ReusableComponentsService,
   ) {
     this.objPortalModel = new PortalModel(this.toastController, this.loadingController, this.http);
     this.plt.ready().then((readySource) => {
@@ -157,37 +160,14 @@ export class CheckInOutPage implements OnInit {
     const { role, data } = await actionSheet.onDidDismiss();
     console.log('onDidDismiss resolved with role and data', role, data);
   }
-
   fnDoCheckInOut(type) {
-    // this.loadingController
-    //   .create({ keyboardClose: true, message: 'Please wait...' })
-    //   .then(loadingEl => {
-    //     loadingEl.present();
-    //     let url = PortalModel.ApiUrl + "/Attendance/DoAttendance?userID=" + this.UserID + "&username=" + this.Username + "&type=" + type + "&LatitudeCheckIn=" + 1 + "&LongitudeCheckIn=" + 1 + "&imeiNumber=" + this.thisMobileImei;
-    //     this.http.get(url)
-    //       .subscribe(data => {
-    //         loadingEl.dismiss();
-    //         let response = JSON.parse(JSON.stringify(data));
-    //         if (response.responseType == 1) {
-    //           this.fnGetCheckInOuts();
-    //         } else {
-    //           this.objPortalModel.presentToast(response.Msg);
-    //         }
-    //       }, error => {
-    //         loadingEl.dismiss();
-    //         this.objPortalModel.presentToast("No Internet Connection!");
-    //       });
-    //   });
-
-    //this.thisMobileImei = "76151";
-    if (this.workerMobileImei && this.thisMobileImei && this.workerMobileImei == this.thisMobileImei) {
+    if (this.workerMobileImei && this.thisMobileImei) {
       this.objPortalModel.presentToastWithDuration("Please wait...", 4000);
       var options = {
         enableHighAccuracy: true,
         maximumAge: 0, // should be default, just in case
-        timeout: 6000
+        timeout: 30000
       }
-      // this.geolocation.getCurrentPosition(options)
 
       Geolocation.getCurrentPosition(options)
         .then((resp) => {
@@ -225,6 +205,8 @@ export class CheckInOutPage implements OnInit {
                     let response = JSON.parse(JSON.stringify(data));
                     if (response.responseType == 1) {
                       this.fnGetCheckInOuts();
+                      this.objPortalModel.presentToast("The app is attempting to start monitoring.");
+                      this.workerTrackingService.fnStartTracking();
                     } else {
                       this.objPortalModel.presentToast(response.Msg);
                     }
@@ -236,12 +218,24 @@ export class CheckInOutPage implements OnInit {
           }
 
         }, error => {
-          alert("There is a problem in accessing your location. Please make sure you have turned on your location, allowed app to access location and have active internet connection. " + JSON.stringify(error))
-          console.log('Error getting location', error);
+          if (this.plt.is('android')) {
+            var errorMsg = error + "";
+            if (errorMsg.includes("location disabled")) {
+              this.reusableComponentsService.fnOpenSettingsPageApp("Location", "android", false);
+              return;
+            }
+          }
+
+          if (type == 1) {
+            //Write the code inside. If you do not want to ask permissions on load everytime.
+            if (this.plt.is('android')) {
+              this.reusableComponentsService.fnOpenSettingsPageApp("Location");
+            } else {
+              this.reusableComponentsService.fnOpenSettingsPageApp("Location", "ios");
+            }
+          }
         });
-    } else {
-      this.objPortalModel.presentToast("This device is not registered!");
-    }
+    } 
   }
   fnReloadPage() {
     window.location.reload();

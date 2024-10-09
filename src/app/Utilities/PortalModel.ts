@@ -3,8 +3,8 @@ import { LoadingController } from '@ionic/angular';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 export class PortalModel {
-  static ApiUrl: string = "http://localhost:55287";
-
+  //static ApiUrl: string = "http://localhost:55287";
+  static ApiUrl: string = "http://tasker.scitforteapps.com";
   
   constructor(private toastController: ToastController,
     private loadingController: LoadingController, public http: HttpClient) {

@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { PortalModel } from '../Utilities/PortalModel';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular'
@@ -42,7 +42,7 @@ export class PatrolPage implements OnInit {
   description: string = "N/A";
   patrolLocations: any;
   patrolID: number;
-  patrolType: string = "Full Patrol";
+  patrolType: string = "Full Visit";
   lstUsers: any;
   txtRemarks: string;
   lstBuildingProps: any;
@@ -163,10 +163,10 @@ export class PatrolPage implements OnInit {
             let quickPatrolID = patrolType.split('-')[1];
             this.fnGetLocationData(quickPatrolID);
             let titleOfPatrol = patrolType.split(' ')[0];
-            this.patrolType = "Quick Patrol " + titleOfPatrol;
+            this.patrolType = "Quick Visit " + titleOfPatrol;
           } else {
             this.fnGetLocationData(0);
-            this.patrolType = "Full Patrol";
+            this.patrolType = "Full Visit";
           }
           this.fnStartPatrol();
         });
@@ -856,7 +856,7 @@ fnSkipLocation(){
           //  this.fnUploadPatrolProgress(this.patrolLocationID, this.i);
           //  this.i++;
         } else {
-          this.objPortalModel.presentToast("Some error occured. Your patrol progress did not start");
+          this.objPortalModel.presentToast("Some error occured. Your visit progress did not start");
         }
       }, error => {
         this.spinnerDialog.hide();
@@ -927,7 +927,7 @@ fnSkipLocation(){
                 if (distanceInMeters > 50) {
                   IsError = true;
                   var dd = parseFloat(distanceInMeters).toFixed(0);
-                  alert("You are " + dd + " meters away from patrol location! The distance should be less than 10 meters.");
+                  alert("You are " + dd + " meters away from location! The distance should be less than 10 meters.");
                 }
                 if (!IsError) {
                   this.fnUploadPatrolProgress(this.patrolLocationID, this.i, "New");
@@ -966,7 +966,7 @@ fnSkipLocation(){
       //   this.objPortalModel.presentToast("Some error occured!");
       // });
     } else {
-      this.objPortalModel.presentToast("This location was already scanned in this patrol. Click Next-> icon on top right.");
+      this.objPortalModel.presentToast("This location was already scanned in this visit. Click Next-> icon on top right.");
     }
   }
 }
