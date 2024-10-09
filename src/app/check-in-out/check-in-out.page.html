@@ -63,6 +63,11 @@
   <div><label>Please make sure you have turned on your location.</label> <label> Your device ID is </label>  <ion-input style="font-weight:bold;" [(ngModel)]="lblDeviceID"> </ion-input></div>
   <!-- <label (click)="fnReloadPage();">Please make sure you have turned on your location. <span style="color:blue;"><u>Click here</u></span> to reload the page after turning ON the location.</label> -->
 </div>
+
+<div [hidden]="!DoCheckInOut">
+  <ion-button size="small" *ngIf="!workerTrackingService.watcherId" expand="block" (click)="startTracking()">Turn on tracking</ion-button>
+  <ion-button size="small"  *ngIf="workerTrackingService.watcherId"  expand="block" color="danger" (click)="stopTracking()">Turn off tracking</ion-button>
+</div>
     <ion-list>
       <ion-card *ngFor="let item of lstAttendance">
         <ion-card-header>

@@ -71,6 +71,17 @@ export class CheckInOutPage implements OnInit {
   GetToDate() {
     this.lblToDate = moment(this.toDateValue).format('DD-MMM-YYYY');
   }
+
+  stopTracking(){
+    this.workerTrackingService.fnStopTracking();
+  }
+  
+  startTracking(){
+    if(confirm("You only need to start tracking if you are on the shift. Are you sure you want to start tracking?")){
+      this.workerTrackingService.fnStartTracking();
+    }
+  }
+
   fnOneTimeRegistration() {
     if (this.thisMobileImei) {
       if (confirm("Please make sure this is your regular device. Are you sure you want to register this device?")) {
@@ -161,81 +172,80 @@ export class CheckInOutPage implements OnInit {
     console.log('onDidDismiss resolved with role and data', role, data);
   }
   fnDoCheckInOut(type) {
-    if (this.workerMobileImei && this.thisMobileImei) {
-      this.objPortalModel.presentToastWithDuration("Please wait...", 4000);
-      var options = {
-        enableHighAccuracy: true,
-        maximumAge: 0, // should be default, just in case
-        timeout: 30000
-      }
+    this.objPortalModel.presentToastWithDuration("Please wait...", 4000);
+    var options = {
+      enableHighAccuracy: true,
+      maximumAge: 0, // should be default, just in case
+      timeout: 30000
+    }
 
-      Geolocation.getCurrentPosition(options)
-        .then((resp) => {
-          let latitude = "" + resp.coords.latitude;
-          let longitude = "" + resp.coords.longitude;
+    Geolocation.getCurrentPosition(options)
+      .then((resp) => {
+        let latitude = "" + resp.coords.latitude;
+        let longitude = "" + resp.coords.longitude;
 
-          let IsError = false;
+        let IsError = false;
 
-          // Get Worker Attendance Location based on user ID
+        // Get Worker Attendance Location based on user ID
 
-          if (this.workerAttendanceLocation) {
-            var lat1 = this.workerAttendanceLocation.split(',')[0];
-            var long1 = this.workerAttendanceLocation.split(',')[1];
+        if (this.workerAttendanceLocation) {
+          var lat1 = this.workerAttendanceLocation.split(',')[0];
+          var long1 = this.workerAttendanceLocation.split(',')[1];
 
-            var lat2 = latitude;
-            var long2 = longitude;
+          var lat2 = latitude;
+          var long2 = longitude;
 
-            var distanceInMeters = this.objPortalModel.fnCalculateDistance(lat1, lat2, long1, long2);
-            if (distanceInMeters > 100) {
-              IsError = true;
-              var dd = parseFloat(distanceInMeters).toFixed(0);
-              alert("You are " + dd + " meters away from attendance location! The distance should be less than 100 meters.");
-            }
+          var distanceInMeters = this.objPortalModel.fnCalculateDistance(lat1, lat2, long1, long2);
+          if (distanceInMeters > 100) {
+            IsError = true;
+            var dd = parseFloat(distanceInMeters).toFixed(0);
+            alert("You are " + dd + " meters away from attendance location! The distance should be less than 100 meters.");
           }
+        }
 
-          if (!IsError) {
-            this.loadingController
-              .create({ keyboardClose: true, message: 'Please wait...' })
-              .then(loadingEl => {
-                loadingEl.present();
-                let url = PortalModel.ApiUrl + "/Attendance/DoAttendance?userID=" + this.UserID + "&username=" + this.Username + "&type=" + type + "&LatitudeCheckIn=" + latitude + "&LongitudeCheckIn=" + longitude + "&imeiNumber=" + this.thisMobileImei;
-                this.http.get(url)
-                  .subscribe(data => {
-                    loadingEl.dismiss();
-                    let response = JSON.parse(JSON.stringify(data));
-                    if (response.responseType == 1) {
-                      this.fnGetCheckInOuts();
-                      this.objPortalModel.presentToast("The app is attempting to start monitoring.");
-                      this.workerTrackingService.fnStartTracking();
-                    } else {
-                      this.objPortalModel.presentToast(response.Msg);
-                    }
-                  }, error => {
-                    loadingEl.dismiss();
-                    this.objPortalModel.presentToast("No Internet Connection!");
-                  });
-              });
+        if (!IsError) {
+          this.loadingController
+            .create({ keyboardClose: true, message: 'Please wait...' })
+            .then(loadingEl => {
+              loadingEl.present();
+              let url = PortalModel.ApiUrl + "/Attendance/DoAttendance?userID=" + this.UserID + "&username=" + this.Username + "&type=" + type + "&LatitudeCheckIn=" + latitude + "&LongitudeCheckIn=" + longitude + "&imeiNumber=" + this.thisMobileImei;
+              this.http.get(url)
+                .subscribe(data => {
+                  loadingEl.dismiss();
+                  let response = JSON.parse(JSON.stringify(data));
+                  if (response.responseType == 1) {
+                    this.fnGetCheckInOuts();
+                    this.objPortalModel.presentToast("The app is attempting to start monitoring.");
+                    this.workerTrackingService.fnStartTracking();
+                  } else {
+                    this.objPortalModel.presentToast(response.Msg);
+                  }
+                }, error => {
+                  loadingEl.dismiss();
+                  this.objPortalModel.presentToast("No Internet Connection!");
+                });
+            });
+        }
+
+      }, error => {
+        if (this.plt.is('android')) {
+          var errorMsg = error + "";
+          if (errorMsg.includes("location disabled")) {
+            this.reusableComponentsService.fnOpenSettingsPageApp("Location", "android", false);
+            return;
           }
+        }
 
-        }, error => {
+        if (type == 1) {
+          //Write the code inside. If you do not want to ask permissions on load everytime.
           if (this.plt.is('android')) {
-            var errorMsg = error + "";
-            if (errorMsg.includes("location disabled")) {
-              this.reusableComponentsService.fnOpenSettingsPageApp("Location", "android", false);
-              return;
-            }
+            this.reusableComponentsService.fnOpenSettingsPageApp("Location");
+          } else {
+            this.reusableComponentsService.fnOpenSettingsPageApp("Location", "ios");
           }
+        }
+      });
 
-          if (type == 1) {
-            //Write the code inside. If you do not want to ask permissions on load everytime.
-            if (this.plt.is('android')) {
-              this.reusableComponentsService.fnOpenSettingsPageApp("Location");
-            } else {
-              this.reusableComponentsService.fnOpenSettingsPageApp("Location", "ios");
-            }
-          }
-        });
-    } 
   }
   fnReloadPage() {
     window.location.reload();
