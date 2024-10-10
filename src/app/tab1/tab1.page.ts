@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { PortalModel } from '../Utilities/PortalModel';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute  } from '@angular/router';
 import { Storage } from '@ionic/storage-angular'
 import { LoadingController } from '@ionic/angular';
 import * as moment from 'moment';
@@ -11,7 +11,7 @@ import { Platform } from '@ionic/angular';
 // import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import * as $ from "jquery";
 import { Geolocation } from '@capacitor/geolocation';
-
+import { App } from '@capacitor/app';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -42,16 +42,25 @@ export class Tab1Page {
 
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     // public geolocation:Geolocation,
     public plt: Platform, private router: Router, public toastController: ToastController,
     public http: HttpClient, private storage: Storage, private loadingController: LoadingController) {
     this.objPortalModel = new PortalModel(this.toastController, this.loadingController, this.http);
     this.plt.ready().then((readySource) => {
-   
       storage.create();
     });
+
+    this.plt.backButton.subscribeWithPriority(10, () => {
+      var currentPage = router.url;
+      console.log('Current Page:', currentPage);
+      if (currentPage == "/tabs/tab1")
+        App.minimizeApp();
+      else
+        this.router.navigateByUrl("/tabs/tab1");
+    });
   }
-  doRefresh(event){
+  doRefresh(event) {
     setTimeout(() => {
       this.fnGetNoticeBoard();
       event.target.complete();
@@ -222,6 +231,7 @@ export class Tab1Page {
         if (response.responseType == 1) {
           $("#divLoaderNotice").hide();
           this.lstNotices=response.Data;
+          this.lstNotices.reverse();
         }else{
           $("#divLoaderNotice").html("No new notices");
           this.lstNotices=[];

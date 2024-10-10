@@ -56,6 +56,8 @@ export class CheckInOutPage implements OnInit {
     this.plt.ready().then((readySource) => {
       storage.create();
     });
+
+  
   }
 
   async getUniqueDeviceID() {
@@ -81,6 +83,8 @@ export class CheckInOutPage implements OnInit {
       this.workerTrackingService.fnStartTracking();
     }
   }
+
+ 
 
   fnOneTimeRegistration() {
     if (this.thisMobileImei) {
@@ -231,7 +235,7 @@ export class CheckInOutPage implements OnInit {
         if (this.plt.is('android')) {
           var errorMsg = error + "";
           if (errorMsg.includes("location disabled")) {
-            this.reusableComponentsService.fnOpenSettingsPageApp("Location", "android", false);
+            this.workerTrackingService.fnOpenSettingsPageApp("Location", "android", false);
             return;
           }
         }
@@ -239,9 +243,9 @@ export class CheckInOutPage implements OnInit {
         if (type == 1) {
           //Write the code inside. If you do not want to ask permissions on load everytime.
           if (this.plt.is('android')) {
-            this.reusableComponentsService.fnOpenSettingsPageApp("Location");
+            this.workerTrackingService.fnOpenSettingsPageApp("Location");
           } else {
-            this.reusableComponentsService.fnOpenSettingsPageApp("Location", "ios");
+            this.workerTrackingService.fnOpenSettingsPageApp("Location", "ios");
           }
         }
       });

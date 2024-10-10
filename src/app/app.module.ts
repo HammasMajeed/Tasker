@@ -13,10 +13,8 @@ import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 // import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 // import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 // import { Uid } from '@ionic-native/uid/ngx';
-import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@awesome-cordova-plugins/media-capture/ngx';
 //import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
-import { SpinnerDialog } from '@awesome-cordova-plugins/spinner-dialog/ngx';
 // import { Camera } from '@awesome-cordova-plugins/camera/ngx';
 import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
 import { FTP } from '@awesome-cordova-plugins/ftp/ngx';
@@ -32,9 +30,7 @@ import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
     // Geolocation,
     // UniqueDeviceID,
     // Uid,
-    AndroidPermissions,
     // BarcodeScanner,
-    SpinnerDialog,
     MediaCapture,
     WebView,
     FTP,

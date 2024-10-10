@@ -1,13 +1,19 @@
-package io.ionic.icecube;
+package io.ionic.scitfortetasker;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
+import com.getcapacitor.annotation.CapacitorPlugin;
 
+
+
+
+@CapacitorPlugin(name = "Echo")
 public class EchoPlugin extends Plugin {
 
   @PluginMethod()

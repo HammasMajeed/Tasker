@@ -8,7 +8,6 @@ import { LoadingController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 //import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 import * as $ from "jquery";
-import { SpinnerDialog } from '@awesome-cordova-plugins/spinner-dialog/ngx';
 
 @Component({
   selector: 'app-patrol-completed',

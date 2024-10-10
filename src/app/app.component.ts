@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular'
 import { Platform } from '@ionic/angular';
-import { isThisISOWeek } from 'date-fns';
+import { App } from '@capacitor/app';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -57,6 +57,7 @@ export class AppComponent {
     this.plt.ready().then((readySource) => {
       storage.create();
     });
+   
   }
   ngOnInit() {
     this.plt.ready().then((readySource) => {

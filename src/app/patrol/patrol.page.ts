@@ -9,7 +9,6 @@ import { Platform } from '@ionic/angular';
 import { BarcodeScanner,SupportedFormat  } from '@capacitor-community/barcode-scanner';
 // import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 import * as $ from "jquery";
-import { SpinnerDialog } from '@awesome-cordova-plugins/spinner-dialog/ngx';
 // import { File } from '@awesome-cordova-plugins/file/ngx';
 import { FTP } from '@awesome-cordova-plugins/ftp/ngx';
 // import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
@@ -70,7 +69,7 @@ export class PatrolPage implements OnInit {
   //private preventBack: Subscription,
   constructor(
     // private geolocation:Geolocation, 
-    private ngZone: NgZone, private mediaCapture: MediaCapture, private fTP: FTP,  private spinnerDialog: SpinnerDialog, 
+    private ngZone: NgZone, private mediaCapture: MediaCapture, private fTP: FTP,
     // private barcodeScanner: BarcodeScanner, 
     public plt: Platform, private router: Router, public toastController: ToastController,
     public http: HttpClient, private storage: Storage, private loadingController: LoadingController) {
@@ -250,12 +249,10 @@ export class PatrolPage implements OnInit {
   }
 
   fnGetLocationData(quickPatrolID) {
-    this.spinnerDialog.show();
     let url = PortalModel.ApiUrl + "/GuardsPatrol/GetPatrolLocationsDetailForApp?quickPatrolID=" + quickPatrolID + "&UserID=" + this.UserID;
     this.http.get(url)
       .subscribe(data => {
         let response = JSON.parse(JSON.stringify(data));
-        this.spinnerDialog.hide();
         if (response.responseType == 1) {
           console.log("Getting Patrol Locations: "+JSON.stringify(response.Data));
           this.patrolLocations = response.Data;
@@ -265,7 +262,6 @@ export class PatrolPage implements OnInit {
           this.objPortalModel.presentToast("There are no active locations to patrol!");
         }
       }, error => {
-        this.spinnerDialog.hide();
         this.router.navigateByUrl("dashboard")
         this.objPortalModel.presentToast("No Internet Connection!");
       });
@@ -844,11 +840,9 @@ fnSkipLocation(){
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   fnStartPatrol() {
-    this.spinnerDialog.show();
     let url = PortalModel.ApiUrl + "/GuardsPatrol/StartPatrol?patrolType=" + this.patrolType + "&userID=" + this.UserID;
     this.http.get(url)
       .subscribe(data => {
-        this.spinnerDialog.hide();
         let response = JSON.parse(JSON.stringify(data));
         let responseType = response.responseType;
         if (responseType == 1) {
@@ -859,7 +853,6 @@ fnSkipLocation(){
           this.objPortalModel.presentToast("Some error occured. Your visit progress did not start");
         }
       }, error => {
-        this.spinnerDialog.hide();
         this.objPortalModel.presentToast("No Internet Connection!");
       });
   }
